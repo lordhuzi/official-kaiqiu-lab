@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.6">
+    <title>开球网 · 日常信息卡片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f3f5f7;
+            color: #1d2b3e;
+            line-height: 1.6;
+            padding: 2rem 1.2rem;
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* 主视觉 - 浅灰层次 */
+        .hero {
+            background: white;
+            border-radius: 24px;
+            padding: 2.8rem 2.2rem;
+            margin-bottom: 2.4rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e6eaef;
+            transition: box-shadow 0.2s;
+        }
+
+        .hero:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 450;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.4rem;
+            color: #1e2a3a;
+        }
+
+        .hero .sub {
+            font-size: 1.1rem;
+            color: #546e7a;
+            font-weight: 350;
+            border-left: 4px solid #a3b8cc;
+            padding-left: 1rem;
+            margin-top: 0.3rem;
+        }
+
+        .hero p {
+            margin-top: 1.2rem;
+            max-width: 640px;
+            font-size: 1rem;
+            color: #33485d;
+        }
+
+        /* 卡片网格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.6rem;
+            margin: 2.6rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.8rem 1.6rem 2rem;
+            border: 1px solid #e2e8ef;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: transform 0.15s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+            border-color: #cdd9e6;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 480;
+            margin-bottom: 0.55rem;
+            color: #1e2b3c;
+            letter-spacing: -0.01em;
+        }
+
+        .card h3 i {
+            display: inline-block;
+            margin-right: 0.2rem;
+            opacity: 0.7;
+        }
+
+        .card p, .card li {
+            font-size: 0.95rem;
+            color: #385066;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .card li {
+            padding: 0.25rem 0;
+            display: flex;
+            align-items: baseline;
+            gap: 0.4rem;
+        }
+
+        .card li::before {
+            content: "·";
+            color: #7c95af;
+            font-weight: bold;
+            margin-right: 0.3rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #eef2f6;
+            color: #2f4460;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            margin-top: 0.6rem;
+            border: 1px solid #e1e8ef;
+        }
+
+        /* 自然链接段落 */
+        .read-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem 2rem 2.2rem;
+            margin: 2rem 0;
+            border: 1px solid #e2e8ef;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .read-section h2 {
+            font-size: 1.5rem;
+            font-weight: 430;
+            margin-bottom: 1rem;
+            color: #1b2a3b;
+            border-bottom: 2px solid #eef3f8;
+            padding-bottom: 0.5rem;
+        }
+
+        .read-section p {
+            margin-bottom: 1rem;
+            font-size: 0.98rem;
+        }
+
+        .read-section a {
+            color: #1f506f;
+            text-decoration: none;
+            font-weight: 480;
+            border-bottom: 1px solid #c2d3e3;
+            transition: color 0.15s, border-color 0.15s;
+        }
+
+        .read-section a:hover {
+            color: #0b3148;
+            border-bottom-color: #0b3148;
+        }
+
+        /* 适合人群小卡片扩展 */
+        .audience-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 1rem;
+            margin-top: 0.6rem;
+        }
+
+        .audience-flex span {
+            background: #f1f5fa;
+            padding: 0.25rem 1rem 0.25rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            border: 1px solid #e0e8f0;
+            color: #2d4a62;
+        }
+
+        /* FAQ 摘要 */
+        .faq-mini {
+            background: white;
+            border-radius: 20px;
+            padding: 1.6rem 1.8rem;
+            margin: 1.8rem 0 2.6rem;
+            border: 1px solid #e6edf4;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .faq-mini h3 {
+            font-weight: 450;
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+            color: #253c50;
+        }
+
+        .faq-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #ecf2f8;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item strong {
+            display: block;
+            font-weight: 500;
+            color: #1c3348;
+            margin-bottom: 0.15rem;
+        }
+
+        .faq-item span {
+            color: #456076;
+            font-size: 0.92rem;
+        }
+
+        /* 脚注 */
+        .footer-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6f8ba3;
+            border-top: 1px solid #dce5ed;
+            padding-top: 1.8rem;
+            margin-top: 2rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 540px) {
+            body { padding: 1.2rem 0.9rem; }
+            .hero { padding: 1.8rem 1.2rem; }
+            .hero h1 { font-size: 2rem; }
+            .card-grid { gap: 1rem; }
+            .card { padding: 1.4rem 1.1rem; }
+            .read-section { padding: 1.4rem 1.2rem; }
+            .faq-mini { padding: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HERO：主视觉 + 简短定位 -->
+    <div class="hero">
+        <h1>日常对照 · 信息延伸</h1>
+        <div class="sub">开球网 · 一种查阅方式</div>
+        <p>
+            很多查询是重复的：球队近期状态、历史交锋、联赛积分、杯赛走势……<br>
+            我们习惯先看一遍数据，再对照自己的印象。这种阅读过程本身，比结果更常见。
+        </p>
+    </div>
+
+    <!-- 信息卡片：用途 / 场景 / 对照 -->
+    <div class="card-grid">
+        <div class="card">
+            <h3><i>📋</i> 日常查询</h3>
+            <ul>
+                <li>联赛积分与排名变化</li>
+                <li>下一轮赛程及场地信息</li>
+                <li>近期战绩走势（主/客）</li>
+                <li>阵容与伤停动态</li>
+                <li>历史同赛事对照</li>
+            </ul>
+            <span class="tag">频繁使用场景</span>
+        </div>
+
+        <div class="card">
+            <h3><i>🔎</i> 对照阅读</h3>
+            <p>当你看到一组数据，往往需要另一组参照。比如联赛排名配球队近期状态，或者杯赛晋级路线与联赛表现对照。这种并列关系是日常信息处理的一部分。</p>
+            <div class="audience-flex">
+                <span>数据习惯者</span>
+                <span>回顾型读者</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><i>🧩</i> 延伸线索</h3>
+            <ul>
+                <li>由一场比赛延伸到联赛大势</li>
+                <li>由球员表现延伸到历史对比</li>
+                <li>由杯赛抽签延伸到过往对阵</li>
+                <li>由一条新闻延伸到积分影响</li>
+            </ul>
+            <span class="tag">非固定路径</span>
+        </div>
+    </div>
+
+    <!-- 自然链接段落：嵌入开球网 -->
+    <div class="read-section">
+        <h2>从查询到阅读</h2>
+        <p>
+            很多人在比赛日前后会反复查阅几项数据：积分榜、射手榜、赛程表。这类查询并不深，但却很频繁。一个稳定的信息入口可以帮助减少搜索成本。像 <a href="https://official-kaiqiu.com">开球网</a> 这样的站点，提供的就是一种连续查阅的界面——不需要每次重新整理关键词。
+        </p>
+        <p>
+            当你习惯了一个信息结构，阅读效率会提升。不需要记住所有细节，只需要知道去哪里对照。这也是为什么我们经常把「开球网」当作起始页或参考标签：它的内容组织方式适合日常浏览，而非一次性查询。
+        </p>
+        <p>
+            另外，对于已有一定知识储备的读者来说，延伸阅读往往比基础数据更有价值。比如历史交锋记录的细微变化、主客场的非对称数据、不同赛季的同期对比等——这些内容在常规页面中容易被忽略，但如果你愿意花一两分钟对照，常常会有新发现。
+        </p>
+    </div>
+
+    <!-- 适合人群简明卡片 -->
+    <div class="card-grid" style="margin-top: 0.4rem;">
+        <div class="card">
+            <h3><i>👥</i> 适合人群</h3>
+            <ul>
+                <li>日常查看积分与赛程的读者</li>
+                <li>喜欢对照历史数据的人</li>
+                <li>需要快速了解联赛动态的浏览者</li>
+                <li>偶尔延伸阅读、不追求即时比分</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3><i>🧭</i> 使用提示</h3>
+            <p>不必每次从头浏览。可以固定关注某几个栏目：联赛积分、近期赛果、下一轮对阵。花两三分钟看完，再决定是否深入。阅读节奏自己掌握，避免信息过载。</p>
+            <span class="tag">克制阅读</span>
+        </div>
+    </div>
+
+    <!-- FAQ 摘要 -->
+    <div class="faq-mini">
+        <h3>常见想法 · 简短回应</h3>
+        <div class="faq-item">
+            <strong>“我只想看某支球队，不想看其他内容”</strong>
+            <span>—— 通过站内搜索或球队标签页可以筛选，减少无关信息干扰。</span>
+        </div>
+        <div class="faq-item">
+            <strong>“多个联赛的数据要来回切换”</strong>
+            <span>—— 建议使用「多联赛对照」功能（如果站点提供），或者同时在浏览器开两个标签页，按需对比。</span>
+        </div>
+        <div class="faq-item">
+            <strong>“历史数据太多，看不过来”</strong>
+            <span>—— 优先看近6场或近10场，更早的数据可以作为延伸，不用全部阅读。</span>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <div class="footer-note">
+        <span>信息卡片 · 自由查阅节奏</span>
+    </div>
+
+</div>
+</body>
+</html>
